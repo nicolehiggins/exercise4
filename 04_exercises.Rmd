@@ -97,14 +97,60 @@ These exercises will reiterate what you learned in the "Mapping data with R" tut
 ### Starbucks locations (`ggmap`)
 
   1. Add the `Starbucks` locations to a world map. Add an aesthetic to the world map that sets the color of the points according to the ownership type. What, if anything, can you deduce from this visualization?  
+  
+```{r}
+world <- get_stamenmap(bbox = c(left = -180, bottom = -57, right = 179, top = 82),
+                       maptype = "terrain",
+                       zoom = 2)
+ggmap(world) +
+  geom_point(data = Starbucks,
+             aes(x = Longitude, y = Latitude, color = `Ownership Type`),
+             alpha = .3,
+             size = .1) +
+  theme_map()
+```
+**This map can give us hints about the laws of various countries. I can recognize chunks of blue, purple, and orange in Asia; whereas the US is exclusively pink and purple etc.**
 
   2. Construct a new map of Starbucks locations in the Twin Cities metro area (approximately the 5 county metro area).  
+  
+```{r}
+twinCities <- get_stamenmap(bbox = c(left = -93.7, bottom = 44.7, right = -92.7, top = 45.2),
+                       maptype = "terrain",
+                       zoom = 10)
+ggmap(twinCities) +
+  geom_point(data = Starbucks,
+             aes(x = Longitude, y = Latitude)) +
+  theme_map()
+```
 
   3. In the Twin Cities plot, play with the zoom number. What does it do?  (just describe what it does - don't actually include more than one map).  
+  
+**The zoom number is the level of detail on the map. Higher zoom : more detail**
 
   4. Try a couple different map types (see `get_stamenmap()` in help and look at `maptype`). Include a map with one of the other map types.  
 
+```{r}
+twinCities <- get_stamenmap(bbox = c(left = -93.7, bottom = 44.7, right = -92.7, top = 45.2),
+                       maptype = "watercolor",
+                       zoom = 10)
+ggmap(twinCities) +
+  geom_point(data = Starbucks,
+             aes(x = Longitude, y = Latitude)) +
+  theme_map()
+```
+
   5. Add a point to the map that indicates Macalester College and label it appropriately. There are many ways you can do think, but I think it's easiest with the `annotate()` function (see `ggplot2` cheatsheet).
+
+```{r}
+twinCities <- get_stamenmap(bbox = c(left = -93.7, bottom = 44.7, right = -92.7, top = 45.2),
+                       maptype = "watercolor",
+                       zoom = 10)
+ggmap(twinCities) +
+  geom_point(data = Starbucks,
+             aes(x = Longitude, y = Latitude)) +
+  annotate("text", x = 45, y = -93, label = "Macalester College") + #y u no show up :(
+  theme_map()
+```
 
 ### Choropleth maps with Starbucks data (`geom_map()`)
 
@@ -125,7 +171,13 @@ starbucks_with_2018_pop_est <-
 
   6. **`dplyr` review**: Look through the code above and describe what each line of code does.
 
+**160 reads in a csv to create a dataset. 161-163 clean up the state variable so it matches the Starbucks state variable. 165-168 then creates a new dataset by joining the two by their respective state variable names. Finally, 169 adds a new variable that calculates the number of locations per 10,000 citizens.**
+
   7. Create a choropleth map that shows the number of Starbucks per 10,000 people on a map of the US. Use a new fill color, add points for all Starbucks in the US (except Hawaii and Alaska), add an informative title for the plot, and include a caption that says who created the plot (you!). Make a conclusion about what you observe.
+```{r}
+
+```
+
 
 ### A few of your favorite things (`leaflet`)
 
